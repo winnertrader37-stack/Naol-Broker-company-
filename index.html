@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#080d12">
+    <meta name="description"
+          content="Naol Broker — Modern market analysis and trading dashboard.">
+
+    <title>Naol Broker | Trading Dashboard</title>
+
+    <!-- Main website styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- TradingView Lightweight Charts -->
+    <script
+        src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"
+        defer>
+    </script>
+
+    <!-- Website JavaScript -->
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Application -->
+    <div class="app-shell">
+
+        <!-- MOBILE OVERLAY -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+
+            <div class="brand">
+                <div class="brand-logo">
+                    <span class="brand-logo-icon">N</span>
+                </div>
+
+                <div class="brand-text">
+                    <h1>NAOL<span>BROKER</span></h1>
+                    <small>TRADING TERMINAL</small>
+                </div>
+
+                <button
+                    class="icon-button sidebar-close"
+                    id="closeSidebar"
+                    aria-label="Close navigation">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Account selector -->
+            <div class="account-selector">
+                <div class="account-avatar">N</div>
+
+                <div class="account-details">
+                    <strong>Naol Account</strong>
+                    <span>Demo Workspace</span>
+                </div>
+
+                <span class="dropdown-arrow">⌄</span>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="main-navigation">
+
+                <div class="nav-heading">WORKSPACE</div>
+
+                <button
+                    class="nav-item active"
+                    data-page="dashboard">
+                    <span class="nav-icon">▦</span>
+                    <span>Overview</span>
+                </button>
+
+                <button
+                    class="nav-item"
+                    data-page="markets">
+                    <span class="nav-icon">◈</span>
+                    <span>Markets</span>
+                </button>
+
+                <button
+                    class="nav-item"
+                    data-page="trade">
+                    <span class="nav-icon">↗</span>
+                    <span>Trading Terminal</span>
+                </button>
+
+                <button
+                    class="nav-item"
+                    data-page="positions">
+                    <span class="nav-icon">▤</span>
+                    <span>Open Positions</span>
+                    <span class="nav-count" id="positionCount">0</span>
+                </button>
+
+                <button
+                    class="nav-item"
+                    data-page="history">
+                    <span class="nav-icon">◷</span>
+                    <span>Trade History</span>
+                </button>
+
+                <div class="nav-heading nav-heading-spaced">
+                    ACCOUNT
+                </div>
+
+                <button
+                    class="nav-item"
+                    data-page="wallet">
+                    <span class="nav-icon">▣</span>
+                    <span>Wallet</span>
+                </button>
+
+                <button
+                    class="nav-item"
+                    data-page="reports">
+                    <span class="nav-icon">▥</span>
+                    <span>Reports</span>
+                </button>
+
+                <button
+                    class="nav-item"
+                    data-page="settings">
+                    <span class="nav-icon">⚙</span>
+                    <span>Settings</span>
+                </button>
+
+            </nav>
+
+            <!-- Sidebar bottom -->
+            <div class="sidebar-bottom">
+
+                <div class="support-card">
+                    <div class="support-icon">?</div>
+
+                    <div>
+                        <strong>Need help?</strong>
+                        <p>Explore your workspace</p>
+                    </div>
+
+                    <span>›</span>
+                </div>
+
+                <div class="sidebar-footer">
+                    <span class="status-dot"></span>
+                    <span>Naol Broker</span>
+                    <span class="version">v1.0</span>
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN AREA -->
+        <main class="main-area">
+
+            <!-- TOP HEADER -->
+            <header class="topbar">
+
+                <div class="topbar-left">
+
+                    <button
+                        class="icon-button menu-toggle"
+                        id="menuToggle"
+                        aria-label="Open navigation">
+                        ☰
+                    </button>
+
+                    <div class="breadcrumb">
+                        <span>Workspace</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <strong id="pageTitle">Overview</strong>
+                    </div>
+
+                </div>
+
+                <div class="topbar-right">
+
+                    <div class="market-status">
+                        <span class="status-dot"></span>
+                        <span>Demo mode</span>
+                    </div>
+
+                    <button
+                        class="icon-button notification-button"
+                        id="notificationButton"
+                        aria-label="Notifications">
+                        ♧
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <button class="profile-button" id="profileButton">
+                        <span class="profile-avatar">N</span>
+
+                        <span class="profile-info">
+                            <strong>Naol Trader</strong>
+                            <small>Demo account</small>
+                        </span>
+
+                        <span class="dropdown-arrow">⌄</span>
+                    </button>
+
+                </div>
+
+            </header>
+
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+
+                <!-- DASHBOARD PAGE -->
+                <section class="page-section active" id="page-dashboard">
+
+                    <div class="page-heading">
+
+                        <div>
+                            <div class="eyebrow">
+                                YOUR TRADING WORKSPACE
+                            </div>
+
+                            <h2>Market overview</h2>
+
+                            <p>
+                                Monitor markets and explore your trading workspace.
+                            </p>
+                        </div>
+
+                        <div class="heading-actions">
+
+                            <button
+                                class="button button-secondary"
+                                id="refreshButton">
+                                <span class="refresh-icon">↻</span>
+                                Refresh
+                            </button>
+
+                            <button
+                                class="button button-primary"
+                                id="openTerminalButton">
+                                Open terminal <span>↗</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- DEMO WARNING -->
+                    <div class="demo-notice">
+                        <span class="notice-icon">ⓘ</span>
+
+                        <div>
+                            <strong>Demo workspace</strong>
+
+                            <p>
+                                Account figures and sample trades are illustrative.
+                                This website is not connected to an Exness account
+                                or a live broker.
+                            </p>
+                        </div>
+
+                        <button
+                            class="notice-close"
+                            id="closeNotice"
+                            aria-label="Dismiss notice">
+                            ×
+                        </button>
+                    </div>
+
+                    <!-- ACCOUNT SUMMARY -->
+                    <div class="section-title-row">
+
+                        <div>
+                            <h3>Account summary</h3>
+                            <p>Your demo workspace at a glance.</p>
+                        </div>
+
+                        <span class="demo-badge">DEMO DATA</span>
+
+                    </div>
+
+                    <div class="stats-grid">
+
+                        <!-- BALANCE -->
+                        <article class="stat-card">
+
+                            <div class="stat-top">
+                                <span>Account balance</span>
+                                <span class="stat-icon">▣</span>
+                            </div>
+
+                            <div class="stat-value" id="balanceValue">
+                                $10,000.00
+                            </div>
+
+                            <div class="stat-bottom">
+                                <span class="neutral-text">
+                                    Demo account
+                                </span>
+                                <span class="small-muted">USD</span>
+                            </div>
+
+                        </article>
+
+                        <!-- EQUITY -->
+                        <article class="stat-card">
+
+                            <div class="stat-top">
+                                <span>Equity</span>
+                                <span class="stat-icon">◈</span>
+                            </div>
+
+                            <div class="stat-value" id="equityValue">
+                                $10,000.00
+                            </div>
+
+                            <div class="stat-bottom">
+                                <span class="neutral-text">
+                                    Illustrative value
+                                </span>
+                            </div>
+
+                        </article>
+
+                        <!-- PROFIT -->
+                        <article class="stat-card">
+
+                            <div class="stat-top">
+                                <span>Floating P/L</span>
+                                <span class="stat-icon">↗</span>
+                            </div>
+
+                            <div class="stat-value" id="floatingValue">
+                                $0.00
+                            </div>
+
+                            <div class="stat-bottom">
+                                <span class="neutral-text">
+                                    Demo positions
+                                </span>
+                            </div>
+
+                        </article>
+
+                        <!-- POSITIONS -->
+                        <article class="stat-card">
+
+                            <div class="stat-top">
+                                <span>Open positions</span>
+                                <span class="stat-icon">▤</span>
+                            </div>
+
+                            <div class="stat-value" id="openPositionsValue">
+                                0
+                            </div>
+
+                            <div class="stat-bottom">
+                                <span class="neutral-text">
+                                    Simulated trades
+                                </span>
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                    <!-- CHART + WATCHLIST -->
+                    <div class="dashboard-grid">
+
+                        <!-- MARKET CHART -->
+                        <article class="panel chart-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <div class="panel-kicker">
+                                        MARKET CHART
+                                    </div>
+
+                                    <div class="instrument-heading">
+
+                                        <div class="instrument-icon gold-icon">
+                                            Au
+                                        </div>
+
+                                        <div>
+                                            <h3 id="chartSymbol">XAUUSD</h3>
+                                            <p>Gold / US Dollar</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="chart-actions">
+
+                                    <select
+                                        id="symbolSelect"
+                                        aria-label="Select market">
+
+                                        <option value="XAUUSD">
+                                            XAUUSD
+                                        </option>
+
+                                        <option value="BTCUSD">
+                                            BTCUSD
+                                        </option>
+
+                                        <option value="ETHUSD">
+                                            ETHUSD
+                                        </option>
+
+                                    </select>
+
+                                    <select
+                                        id="timeframeSelect"
+                                        aria-label="Select timeframe">
+
+                                        <option value="1m">1m</option>
+                                        <option value="5m" selected>5m</option>
+                                        <option value="15m">15m</option>
+                                        <option value="1h">1H</option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="chart-price-row">
+
+                                <div>
+                                    <strong id="chartPrice">—</strong>
+
+                                    <span
+                                        class="price-change"
+                                        id="chartChange">
+                                        Waiting for market data
+                                    </span>
+                                </div>
+
+                                <span class="chart-demo-label">
+                                    SAMPLE CHART
+                                </span>
+
+                            </div>
+
+                            <div
+                                class="chart-container"
+                                id="chartContainer">
+
+                                <div class="chart-placeholder" id="chartPlaceholder">
+
+                                    <div class="chart-placeholder-icon">⌁</div>
+
+                                    <strong>Preparing chart...</strong>
+
+                                    <p>
+                                        Chart data will appear when available.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="chart-footer">
+                                <span>
+                                    <span class="status-dot"></span>
+                                    Sample data until a feed is connected
+                                </span>
+
+                                <span id="chartLastUpdated">
+                                    Demo workspace
+                                </span>
+                            </div>
+
+                        </article>
+
+                        <!-- WATCHLIST -->
+                        <article class="panel watchlist-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <div class="panel-kicker">
+                                        MARKET WATCH
+                                    </div>
+
+                                    <h3>Popular markets</h3>
+                                </div>
+
+                                <button
+                                    class="text-button"
+                                    data-page="markets">
+                                    View all →
+                                </button>
+
+                            </div>
+
+                            <div class="watchlist">
+
+                                <button
+                                    class="watchlist-item"
+                                    data-symbol="XAUUSD">
+
+                                    <span class="market-avatar gold-icon">
+                                        Au
+                                    </span>
+
+                                    <span class="market-name">
+                                        <strong>XAUUSD</strong>
+                                        <small>Gold / USD</small>
+                                    </span>
+
+                                    <span class="market-price-group">
+                                        <strong data-price="XAUUSD">—</strong>
+                                        <small data-change="XAUUSD">
+                                            Demo
+                                        </small>
+                                    </span>
+
+                                </button>
+
+                                <button
+                                    class="watchlist-item"
+                                    data-symbol="BTCUSD">
+
+                                    <span class="market-avatar bitcoin-icon">
+                                        ₿
+                                    </span>
+
+                                    <span class="market-name">
+                                        <strong>BTCUSD</strong>
+                                        <small>Bitcoin / USD</small>
+                                    </span>
+
+                                    <span class="market-price-group">
+                                        <strong data-price="BTCUSD">—</strong>
+                                        <small data-change="BTCUSD">
+                                            Demo
+                                        </small>
+                                    </span>
+
+                                </button>
+
+                                <button
+                                    class="watchlist-item"
+                                    data-symbol="ETHUSD">
+
+                                    <span class="market-avatar ethereum-icon">
+                                        ◆
+                                    </span>
+
+                                    <span class="market-name">
+                                        <strong>ETHUSD</strong>
+                                        <small>Ethereum / USD</small>
+                                    </span>
+
+                                    <span class="market-price-group">
+                                        <strong data-price="ETHUSD">—</strong>
+                                        <small data-change="ETHUSD">
+                                            Demo
+                                        </small>
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                            <div class="watchlist-disclaimer">
+                                Prices are examples, not executable quotes.
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                    <!-- TRADING PANEL -->
+                    <div class="section-title-row trade-section-heading">
+
+                        <div>
+                            <h3>Quick trade simulator</h3>
+
+                            <p>
+                                Test the interface with simulated orders.
+                            </p>
+                        </div>
+
+                        <span class="demo-badge">SIMULATION ONLY</span>
+
+                    </div>
+
+                    <div class="trading-grid">
+
+                        <!-- ORDER FORM -->
+                        <article class="panel order-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <div class="panel-kicker">
+                                        ORDER TICKET
+                                    </div>
+
+                                    <h3>New demo order</h3>
+                                </div>
+
+                                <span class="order-type-badge">
+                                    Market
+                                </span>
+
+                            </div>
+
+                            <form id="tradeForm">
+
+                                <div class="form-group">
+
+                                    <label for="tradeSymbol">
+                                        Instrument
+                                    </label>
+
+                                    <select id="tradeSymbol" required>
+
+                                        <option value="XAUUSD">
+                                            XAUUSD — Gold
+                                        </option>
+
+                                        <option value="BTCUSD">
+                                            BTCUSD — Bitcoin
+                                        </option>
+
+                                        <option value="ETHUSD">
+                                            ETHUSD — Ethereum
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="tradeVolume">
+                                        Volume (lots)
+                                    </label>
+
+                                    <div class="volume-control">
+
+                                        <button
+                                            type="button"
+                                            id="decreaseVolume"
+                                            aria-label="Decrease volume">
+                                            −
+                                        </button>
+
+                                        <input
+                                            type="number"
+                                            id="tradeVolume"
+                                            value="0.01"
+                                            min="0.01"
+                                            max="10"
+                                            step="0.01"
+                                            inputmode="decimal"
+                                            required>
+
+                                        <button
+                                            type="button"
+                                            id="increaseVolume"
+                                            aria-label="Increase volume">
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                    <small class="field-hint">
+                                        Simulated volume only.
+                                    </small>
+
+                                </div>
+
+                                <div class="order-estimate">
+
+                                    <span>Estimated execution price</span>
+
+                                    <strong id="estimatedPrice">
+                                        Demo quote unavailable
+                                    </strong>
+
+                                </div>
+
+                                <div class="trade-buttons">
+
+                                    <button
+                                        type="button"
+                                        class="trade-button buy-button"
+                                        id="buyButton">
+
+                                        <span class="trade-button-icon">↗</span>
+
+                                        <span>
+                                            <strong>BUY</strong>
+                                            <small>Simulate long order</small>
+                                        </span>
+
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="trade-button sell-button"
+                                        id="sellButton">
+
+                                        <span class="trade-button-icon">↘</span>
+
+                                        <span>
+                                            <strong>SELL</strong>
+                                            <small>Simulate short order</small>
+                                        </span>
+
+                                    </button>
+
+                                </div>
+
+                                <p class="order-disclaimer">
+                                    Demo only. No real orders or money transfers
+                                    are sent to a broker.
+                                </p>
+
+                            </form>
+
+                        </article>
+
+                        <!-- MARKET INFORMATION -->
+                        <article class="panel market-info-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <div class="panel-kicker">
+                                        MARKET INSIGHTS
+                                    </div>
+
+                                    <h3>Market information</h3>
+                                </div>
+
+                                <span class="info-icon">ⓘ</span>
+
+                            </div>
+
+                            <div class="market-info-list">
+
+                                <div class="market-info-row">
+                                    <span>Selected instrument</span>
+                                    <strong id="infoSymbol">XAUUSD</strong>
+                                </div>
+
+                                <div class="market-info-row">
+                                    <span>Latest sample price</span>
+                                    <strong id="infoPrice">—</strong>
+                                </div>
+
+                                <div class="market-info-row">
+                                    <span>Market direction</span>
+                                    <strong id="infoDirection">
+                                        Awaiting data
+                                    </strong>
+                                </div>
+
+                                <div class="market-info-row">
+                                    <span>Data mode</span>
+                                    <strong class="neutral-text">
+                                        Simulation
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                            <div class="insight-card">
+
+                                <div class="insight-icon">✦</div>
+
+                                <div>
+                                    <strong>Trading workspace</strong>
+
+                                    <p>
+                                        Connect a supported market-data provider
+                                        to display real-time prices.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                    <!-- POSITIONS TABLE -->
+                    <article class="panel positions-panel">
+
+                        <div class="panel-header positions-header">
+
+                            <div>
+                                <div class="panel-kicker">
+                                    YOUR ACTIVITY
+                                </div>
+
+                                <h3>Open positions</h3>
+
+                                <p class="panel-description">
+                                    Orders created in this demo session.
+                                </p>
+                            </div>
+
+                            <button
+                                class="button button-secondary"
+                                id="closeAllButton">
+                                Close all demo positions
+                            </button>
+
+                        </div>
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Instrument</th>
+                                        <th>Direction</th>
+                                        <th>Volume</th>
+                                        <th>Entry price</th>
+                                        <th>Current price</th>
+                                        <th>Demo P/L</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="positionsTableBody">
+
+                                    <tr class="empty-table-row">
+
+                                        <td colspan="7">
+                                            <div class="empty-state">
+
+                                                <div class="empty-state-icon">
+                                                    ▤
+                                                </div>
+
+                                                <strong>
+                                                    No open positions
+                                                </strong>
+
+                                                <p>
+                                                    Create a demo order to test
+                                                    the trading interface.
+                                                </p>
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                        <div class="table-footer">
+                            <span id="positionsSummary">
+                                0 demo positions
+                            </span>
+
+                            <span>
+                                Simulated results only
+                            </span>
+                        </div>
+
+                    </article>
+
+                    <!-- RECENT ACTIVITY -->
+                    <article class="panel activity-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <div class="panel-kicker">
+                                    ACCOUNT ACTIVITY
+                                </div>
+
+                                <h3>Recent activity</h3>
+                            </div>
+
+                            <button
+                                class="text-button"
+                                data-page="history">
+                                View history →
+                            </button>
+
+                        </div>
+
+                        <div class="activity-list" id="activityList">
+
+                            <div class="empty-activity">
+                                Your demo activity will appear here.
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+                <!-- MARKETS PAGE -->
+                <section class="page-section" id="page-markets">
+
+                    <div class="page-heading">
+
+                        <div>
+                            <div class="eyebrow">EXPLORE</div>
+
+                            <h2>Markets</h2>
+
+                            <p>
+                                Explore available instruments in your demo workspace.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h3>Available instruments</h3>
+
+                                <p class="panel-description">
+                                    Example instruments; prices require a data feed.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Instrument</th>
+                                        <th>Description</th>
+                                        <th>Sample price</th>
+                                        <th>Data mode</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="marketsTableBody"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+                <!-- TRADING TERMINAL PAGE -->
+                <section class="page-section" id="page-trade">
+
+                    <div class="page-heading">
+
+                        <div>
+                            <div class="eyebrow">TRADING WORKSPACE</div>
+
+                            <h2>Trading terminal</h2>
+
+                            <p>
+                                View the chart and test simulated buy and sell orders.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="terminal-grid">
+
+                        <article class="panel terminal-chart-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <div class="panel-kicker">
+                                        CHART
+                                    </div>
+
+                                    <h3 id="terminalChartTitle">
+                                        XAUUSD
+                                    </h3>
+                                </div>
+
+                                <select
+                                    id="terminalSymbolSelect"
+                                    aria-label="Terminal instrument">
+
+                                    <option value="XAUUSD">XAUUSD</option>
+                                    <option value="BTCUSD">BTCUSD</option>
+                                    <option value="ETHUSD">ETHUSD</option>
+
+                                </select>
+
+                            </div>
+
+                            <div
+                                id="terminalChartContainer"
+                                class="terminal-chart-container">
+
+                                <div class="chart-placeholder">
+                                    <strong>Chart workspace</strong>
+                                    <p>
+                                        Select an instrument on the dashboard
+                                        to explore the demo chart.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <article class="panel terminal-order-panel">
+
+                            <div class="panel-header">
+                                <div>
+                                    <div class="panel-kicker">ORDER PANEL</div>
+                                    <h3>Quick order</h3>
+                                </div>
+                            </div>
+
+                            <p class="terminal-demo-notice">
+                                All orders on this terminal are simulated.
+                            </p>
+
+                            <div class="form-group">
+
+                                <label for="terminalVolume">
+                                    Volume (lots)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="terminalVolume"
+                                    min="0.01"
+                                    max="10"
+                                    step="0.01"
+                                    value="0.01">
+
+                            </div>
+
+                            <div class="terminal-current-price">
+                                <span>Sample price</span>
+                                <strong id="terminalPrice">—</strong>
+                            </div>
+
+                            <div class="trade-buttons terminal-trade-buttons">
+
+                                <button
+                                    class="trade-button buy-button"
+                                    id="terminalBuyButton">
+
+                                    <span class="trade-button-icon">↗</span>
+
+                                    <span>
+                                        <strong>BUY</strong>
+                                        <small>Demo order</small>
+                                    </span>
+
+                                </button>
+
+                                <button
+                                    class="trade-button sell-button"
+                                    id="terminalSellButton">
+
+                                    <span class="trade-button-icon">↘</span>
+
+                                    <span>
+                                        <strong>SELL</strong>
+                                        <small>Demo order</small>
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+                <!-- POSITIONS PAGE -->
+                <section class="page-section" id="page-positions">
+
+                    <div class="page-heading">
+
+                        <div>
+                            <div class="eyebrow">ACCOUNT ACTIVITY</div>
+
+                            <h2>Open positions</h2>
+
+                            <p>
+                                Review and manage your simulated orders.
+                            </p>
+                        </div>
+
+                        <button
+                            class="button button-secondary"
+                            id="positionsCloseAllButton">
+                            Close all demo positions
+                        </button>
+
+                    </div>
+
+                    <article class="panel">
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Instrument</th>
+                                        <th>Direction</th>
+                                        <th>Volume</th>
+                                        <th>Entry price</th>
+                                        <th>Current price</th>
+                                        <th>Demo P/L</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="allPositionsTableBody"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+                <!-- HISTORY PAGE -->
+                <section class="page-section" id="page-history">
+
+                    <div class="page-heading">
+
+                        <div>
+                            <div class="eyebrow">ACCOUNT ACTIVITY</div>
+
+                            <h2>Trade history</h2>
+
+                            <p>
+                                Review completed simulated orders.
+                            </p>
+                        </div>
+
+                        <button
+                            class="button button-secondary"
+                            id="clearHistoryButton">
+                            Clear demo history
+                        </button>
+
+                    </div>
+
+                    <article class="panel">
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Instrument</th>
+                                        <th>Direction</th>
+                                        <th>Volume</th>
+                                        <th>Entry</th>
+                                        <th>Exit</th>
+                                        <th>Demo P/L</th>
+                                        <th>Closed at</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="historyTableBody"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+                <!-- WALLET PAGE -->
+                <section class="page-section" id="page-wallet">
+
+                    <div class="page-heading">
+
+                        <div>
+                            <div class="eyebrow">ACCOUNT</div>
+
+                            <h2>Wallet</h2>
+
+                            <p>
+                                Review your illustrative demo account figures.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="wallet-grid">
+
+                        <article class="stat-card wallet-balance-card">
+
+                            <div class="stat-top">
+                                <span>Demo balance</span>
+                                <span class="stat-icon">▣</span>
+                            </div>
+
+                            <div class="stat-value" id="walletBalance">
+                                $10,000.00
+                            </div>
+
+                            <div class="stat-bottom">
+                                <span>Illustrative USD balance</span>
+                            </div>
+
+                        </article>
+
+                        <article class="panel wallet-info-card">
+
+                            <div class="panel-header">
+                                <div>
+                                    <h3>Account funding</h3>
+                                </div>
+                            </div>
+
+                            <div class="wallet-information">
+
+                                <div class="notice-icon">ⓘ</div>
+
+                                <div>
+                                    <strong>Demo workspace only</strong>
+
+                                    <p>
+                                        This website does not accept deposits,
+                                        process withdrawals or hold customer funds.
+                                        Connect a properly secured financial provider
+                                        if those services are required.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+                <!-- REPORTS PAGE -->
+                <section class="page-section" id="page-reports">
+
+                    <div class="page-heading">
+
+                        <div>
+                            <div class="eyebrow">ANALYTICS</div>
+
+                            <h2>Reports</h2>
+
+                            <p>
+                                Review demo trading statistics.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="stats-grid">
+
+                        <article class="stat-card">
+                            <div class="stat-top">
+                                <span>Total demo trades</span>
+                                <span class="stat-icon">▤</span>
+                            </div>
+
+                            <div class="stat-value" id="reportTotalTrades">
+                                0
+                            </div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-top">
+                                <span>Winning demo trades</span>
+                                <span class="stat-icon">↗</span>
+                            </div>
+
+                            <div class="stat-value" id="reportWins">
+                                0
+                            </div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-top">
+                                <span>Losing demo trades</span>
+                                <span class="stat-icon">↘</span>
+                            </div>
+
+                            <div class="stat-value" id="reportLosses">
+                                0
+                            </div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-top">
+                                <span>Realized demo P/L</span>
+                                <span class="stat-icon">◈</span>
+                            </div>
+
+                            <div class="stat-value" id="reportProfit">
+                                $0.00
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <article class="panel reports-panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h3>Performance summary</h3>
+                            </div>
+                        </div>
+
+                        <div id="reportSummary" class="report-summary">
+                            Complete a demo trade to populate your report.
+                        </div>
+
+                    </article>
+
+                </section>
+
+                <!-- SETTINGS PAGE -->
+                <section class="page-section" id="page-settings">
+
+                    <div class="page-heading">
+
+                        <div>
+                            <div class="eyebrow">PREFERENCES</div>
+
+                            <h2>Settings</h2>
+
+                            <p>
+                                Customize your Naol Broker workspace.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <article class="panel settings-panel">
+
+                        <div class="settings-row">
+
+                            <div>
+                                <strong>Appearance</strong>
+
+                                <p>
+                                    Choose the workspace theme.
+                                </p>
+                            </div>
+
+                            <select id="themeSelect">
+                                <option value="dark">Dark</option>
+                                <option value="light">Light</option>
+                            </select>
+
+                        </div>
+
+                        <div class="settings-row">
+
+                            <div>
+                                <strong>Account currency</strong>
+
+                                <p>
+                                    Currency used by the demo workspace.
+                                </p>
+                            </div>
+
+                            <select id="currencySelect">
+                                <option value="USD">USD — US Dollar</option>
+                            </select>
+
+                        </div>
+
+                        <div class="settings-row">
+
+                            <div>
+                                <strong>Notifications</strong>
+
+                                <p>
+                                    Show interface notifications.
+                                </p>
+                            </div>
+
+                            <label class="toggle-switch">
+                                <input
+                                    type="checkbox"
+                                    id="notificationsToggle"
+                                    checked>
+
+                                <span class="toggle-slider"></span>
+                            </label>
+
+                        </div>
+
+                        <div class="settings-row">
+
+                            <div>
+                                <strong>Demo account</strong>
+
+                                <p>
+                                    Reset your simulated account to its initial state.
+                                </p>
+                            </div>
+
+                            <button
+                                class="button button-secondary"
+                                id="resetDemoButton">
+                                Reset demo
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="app-footer">
+
+                    <div class="footer-brand">
+                        <span class="footer-logo">N</span>
+                        <span>Naol Broker</span>
+                    </div>
+
+                    <p>
+                        Independent demo trading interface.
+                        Not affiliated with Exness.
+                    </p>
+
+                    <span class="footer-version">
+                        Version 1.0.0
+                    </span>
+
+                </footer>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div
+        class="toast-container"
+        id="toastContainer"
+        aria-live="polite"
+        aria-atomic="false">
+    </div>
+
+    <!-- CONFIRMATION DIALOG -->
+    <dialog class="confirmation-dialog" id="confirmationDialog">
+
+        <div class="dialog-content">
+
+            <div class="dialog-icon" id="dialogIcon">ⓘ</div>
+
+            <h3 id="dialogTitle">Confirm action</h3>
+
+            <p id="dialogMessage">
+                Are you sure you want to continue?
+            </p>
+
+            <div class="dialog-actions">
+
+                <button
+                    class="button button-secondary"
+                    id="dialogCancel">
+                    Cancel
+                </button>
+
+                <button
+                    class="button button-primary"
+                    id="dialogConfirm">
+                    Confirm
+                </button>
+
+            </div>
+
+        </div>
+
+    </dialog>
+
+</body>
+</html>
